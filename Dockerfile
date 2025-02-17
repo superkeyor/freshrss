@@ -16,8 +16,7 @@ WORKDIR /var/www/FreshRSS
 # FilterTitle extension
 RUN git clone https://github.com/cn-tools/cntools_FreshRssExtensions.git && \
     cp -r cntools_FreshRssExtensions/xExtension-FilterTitle ./extensions && \
-    rm -rf cntools_FreshRssExtensions && \
-    ls -la ./extensions/xExtension-FilterTitle
+    rm -rf cntools_FreshRssExtensions
 # Patch FilterTitle extension
 RUN sed -i "s/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', \[\])),/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
     sed -i "s/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', \[\])),/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
@@ -222,7 +221,8 @@ RUN cat <<'EOF' | tee ./extensions/FreshRSS_Extension-ReadingTime/static/reading
 EOF
 
 # Patch freshrss files
-#RUN sed -i -e '/new_active\.dispatchEvent(freshrssOpenArticleEvent);/,/onScroll();/c\    new_active.dispatchEvent(freshrssOpenArticleEvent);\n    onScroll();\n    const link = new_active.querySelector(".item a.title");\n    if (link) {\n        if (link.href.startsWith("https://www.1point3acres.com") || link.href.startsWith("https://www.example.com")) {\n            new_active.classList.toggle("active");\n            window.open(link.href, "_blank");\n            return false;\n        }\n    }' /var/www/FreshRSS/p/scripts/main.js
+# https://github.com/FreshRSS/FreshRSS/blob/edge/p/scripts/main.js
+COPY ./main.js  .p/scripts/main.js
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/FreshRSS/extensions && \
