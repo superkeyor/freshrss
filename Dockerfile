@@ -16,7 +16,8 @@ WORKDIR /var/www/FreshRSS
 # FilterTitle extension
 RUN git clone https://github.com/cn-tools/cntools_FreshRssExtensions.git && \
     cp -r cntools_FreshRssExtensions/xExtension-FilterTitle ./extensions && \
-    rm -rf cntools_FreshRssExtensions
+    rm -rf cntools_FreshRssExtensions && \
+    ls -la ./extensions/xExtension-FilterTitle
 # Patch FilterTitle extension
 RUN sed -i "s/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', \[\])),/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
     sed -i "s/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', \[\])),/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
