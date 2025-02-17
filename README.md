@@ -17,7 +17,7 @@ cat <<EOF | tee docker-compose.yml >/dev/null
 services:
     freshrss:
         image: freshrss
-        container_name: freshrss
+        container_name: superkeyor/freshrss
         ports:
             - 1030:80
         restart: unless-stopped
