@@ -1295,14 +1295,22 @@ function init_stream(stream) {
 				}
 				return true;
 			}
-			toggleContent(new_active, old_active, false);
+			
 			const link = new_active.querySelector('.item a.title');
 			if (link) {
 			    if (link.href.startsWith('https://www.1point3acres.com') || link.href.startsWith('https://www.example.com')) {
-			        toggleContent(new_active, new_active, false);  // toggle back
+		            if (old_active) {
+			            old_active.classList.remove('active');
+			            old_active.classList.remove('current');	
+			        }
+			        new_active.classList.add('current');
+			        mark_read(new_active, true, false);
 			        window.open(link.href, '_blank');
+			        return false
 			    }
 			}
+			
+			toggleContent(new_active, old_active, false);
 			return false;
 		}
 	};
