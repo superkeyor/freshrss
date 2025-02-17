@@ -1299,8 +1299,8 @@ function init_stream(stream) {
 			const link = new_active.querySelector('.item a.title');
 			if (link) {
 			    if (link.href.startsWith('https://www.1point3acres.com') || link.href.startsWith('https://www.example.com')) {
+			        toggleContent(new_active, new_active, false);  // toggle back
 			        window.open(link.href, '_blank');
-			        toggleContent(new_active, old_active, false);  // toggle back
 			    }
 			}
 			return false;
