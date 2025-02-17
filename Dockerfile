@@ -221,8 +221,7 @@ RUN cat <<'EOF' | tee ./extensions/FreshRSS_Extension-ReadingTime/static/reading
 EOF
 
 # Patch freshrss files
-RUN sed -i '/new_active\.dispatchEvent(freshrssOpenArticleEvent);/{:a;n;/onScroll();/!ba;a\    const link = new_active.querySelector(".item a.title");\n    if (link) {\n        if (link.href.startsWith("https://www.1point3acres.com") || link.href.startsWith("https://www.example.com")) {\n            new_active.classList.toggle("active");\n            window.open(link.href, "_blank");\n            return false;\n        }\n    }'} /var/www/FreshRSS/p/scripts/main.js
-
+RUN sed -i -e '/new_active\.dispatchEvent(freshrssOpenArticleEvent);/,/onScroll();/c\    new_active.dispatchEvent(freshrssOpenArticleEvent);\n    onScroll();\n    const link = new_active.querySelector(".item a.title");\n    if (link) {\n        if (link.href.startsWith("https://www.1point3acres.com") || link.href.startsWith("https://www.example.com")) {\n            new_active.classList.toggle("active");\n            window.open(link.href, "_blank");\n            return false;\n        }\n    }' /var/www/FreshRSS/p/scripts/main.js
 # Set permissions
 RUN chown -R www-data:www-data /var/www/FreshRSS/extensions && \
     chmod -R 755 /var/www/FreshRSS/extensions && \
