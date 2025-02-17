@@ -222,7 +222,8 @@ EOF
 
 # Patch freshrss files
 # https://github.com/FreshRSS/FreshRSS/blob/edge/p/scripts/main.js
-COPY ./main.js  .p/scripts/main.js
+# line 1299
+COPY ./main.js  ./p/scripts/main.js
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/FreshRSS/extensions && \
