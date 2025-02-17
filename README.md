@@ -37,8 +37,6 @@ chmod +x run
 
 ####### docker hub
 IMAGE_NAME=$(basename $(pwd))
-echo "Docker Hub Password (formula): "
-sudo docker login -u superkeyor
 
 ####### upload to github and dockerhub
 cat <<EOF | tee upload >/dev/null
@@ -61,4 +59,8 @@ sudo docker image push superkeyor/${IMAGE_NAME}:latest
 fi
 EOF
 chmod +x upload   # ./upload
+
+echo "Docker Hub Password (formula): "
+sudo docker login -u superkeyor
+echo "Ready!"
 ```
