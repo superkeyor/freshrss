@@ -23,7 +23,7 @@ services:
         restart: unless-stopped
         volumes:
             - /data/freshrss/data:/var/www/FreshRSS/data
-            - /data/freshrss/extensions:/var/www/FreshRSS/extensions
+            # - /data/freshrss/extensions:/var/www/FreshRSS/extensions
         environment:
             TZ: "US/Central"
             CRON_MIN: "3,33"
