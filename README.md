@@ -30,7 +30,7 @@ services:
             TRUSTED_PROXY: 172.16.0.1/12 192.168.0.1/16
 EOF
 cat <<EOF | tee run >/dev/null
-docker down
+docker compose down
 docker compose up
 EOF
 chmod +x run
