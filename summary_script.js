@@ -82,7 +82,7 @@ async function summarizeButtonClick(target) {
     return;
   }
 
-  setOaiState(container, 1, '加载中', null);
+  setOaiState(container, 1, '加载中...', null);
 
   // 这是 php 获取参数的地址 - This is the address where PHP gets the parameters
   var url = target.dataset.request;
