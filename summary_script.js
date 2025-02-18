@@ -76,58 +76,60 @@ function setOaiState(container, statusType, statusMsg, summaryText) {
   }
 }
 
-// Modify summarizeButtonClick function
 async function summarizeButtonClick(target) {
-  const container = target.parentNode;
-  if (container.classList.contains('oai-loading')) return;
+  var container = target.parentNode;
+  if (container.classList.contains('oai-loading')) {
+    return;
+  }
 
   setOaiState(container, 1, '加载中', null);
 
+  // 这是 php 获取参数的地址 - This is the address where PHP gets the parameters
+  var url = target.dataset.request;
+  var data = {
+    ajax: true,
+    _csrf: context.csrf
+  };
+
   try {
     const response = await retryWithBackoff(async () => {
-      const response = await axios.post(target.dataset.request, {
-        ajax: true,
-        _csrf: context.csrf
-      }, {
-        headers: { 'Content-Type': 'application/json' }
+      const response = await axios.post(url, data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
-
-      if (!response.data?.response?.data) {
-        throw new Error('Invalid response structure');
-      }
-
-      return response;
-    });
+    return response;});
 
     const xresp = response.data;
+    console.log(xresp);
+
+    if (response.status !== 200 || !xresp.response || !xresp.response.data) {
+      throw new Error('请求失败 / Request Failed');
+    }
 
     if (xresp.response.error) {
       setOaiState(container, 2, xresp.response.data, null);
-      return;
-    }
-
-    const oaiParams = xresp.response.data;
-    const oaiProvider = xresp.response.provider;
-    
-    if (oaiProvider === 'openai') {
-      await sendOpenAIRequest(container, oaiParams);
     } else {
-      await sendOllamaRequest(container, oaiParams);
+      // 解析 PHP 返回的参数
+      const oaiParams = xresp.response.data;
+      const oaiProvider = xresp.response.provider;
+      if (oaiProvider === 'openai') {
+        await sendOpenAIRequest(container, oaiParams);
+      } else {
+        await sendOllamaRequest(container, oaiParams);
+      }
     }
   } catch (error) {
-    console.error('Final error after retries:', error);
-    const errorMessage = error.response?.data?.message || error.message || '请求失败 / Request Failed';
-    setOaiState(container, 2, errorMessage, null);
+    console.error(error);
+    setOaiState(container, 2, '请求失败 / Request Failed', null);
   }
 }
 
-// Modify sendOpenAIRequest function
 async function sendOpenAIRequest(container, oaiParams) {
-  const makeRequest = async () => {
-    const body = { ...oaiParams };
-    delete body.oai_url;
-    delete body.oai_key;
-
+  try {
+    let body = JSON.parse(JSON.stringify(oaiParams));
+    delete body['oai_url'];
+    delete body['oai_key'];	  
     const response = await fetch(oaiParams.oai_url, {
       method: 'POST',
       headers: {
@@ -138,14 +140,9 @@ async function sendOpenAIRequest(container, oaiParams) {
     });
 
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      throw new Error('请求失败 / Request Failed');
     }
 
-    return response;
-  };
-
-  try {
-    const response = await retryWithBackoff(makeRequest);
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
 
@@ -161,12 +158,13 @@ async function sendOpenAIRequest(container, oaiParams) {
       setOaiState(container, 0, null, marked.parse(text));
     }
   } catch (error) {
-    console.error('OpenAI request failed:', error);
-    setOaiState(container, 2, error.message || '请求失败 / Request Failed', null);
+    console.error(error);
+    setOaiState(container, 2, '请求失败 / Request Failed', null);
   }
 }
 
-async function sendOllamaRequest(container, oaiParams, retryCount = 0){
+
+async function sendOllamaRequest(container, oaiParams){
   try {
     const response = await fetch(oaiParams.oai_url, {
       method: 'POST',
@@ -178,11 +176,6 @@ async function sendOllamaRequest(container, oaiParams, retryCount = 0){
     });
 
     if (!response.ok) {
-      if (retryCount < MAX_RETRIES) {
-        setOaiState(container, 1, `重试中... (${retryCount + 1}/${MAX_RETRIES})`, null);
-        await delay(RETRY_DELAY);
-        return sendOllamaRequest(container, oaiParams, retryCount + 1);
-      }
       throw new Error('请求失败 / Request Failed');
     }
   
@@ -217,11 +210,6 @@ async function sendOllamaRequest(container, oaiParams, retryCount = 0){
       }
     }
   } catch (error) {
-    if (retryCount < MAX_RETRIES) {
-      setOaiState(container, 1, `重试中... (${retryCount + 1}/${MAX_RETRIES})`, null);
-      await delay(RETRY_DELAY);
-      return sendOllamaRequest(container, oaiParams, retryCount + 1);
-    }
     console.error(error);
     setOaiState(container, 2, '请求失败 / Request Failed', null);
   }
