@@ -98,6 +98,9 @@ async function summarizeButtonClick(target) {
           'Content-Type': 'application/json'
         }
       });
+      if (!response.data?.response?.data) {
+        throw new Error('Invalid response structure');
+      }
     return response;});
 
     const xresp = response.data;
