@@ -31,6 +31,7 @@ services:
 EOF
 cat <<EOF | tee run >/dev/null
 docker compose down
+docker pull superkeyor/freshrss
 docker compose up
 EOF
 chmod +x run
