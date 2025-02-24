@@ -2,15 +2,7 @@
 
 # Build
 ```
-####### global settings
-IMAGE_NAME="freshrss"
-
-####### git clone
-cp ~/Desktop/Dropbox/Apps/Git/config/.ssh/id_ed25519 ~/.ssh/id_ed25519
-cp ~/Desktop/Dropbox/Apps/Git/config/.gitconfig ~/.gitconfig
-cd ~/Desktop
-git clone git@github.com:/superkeyor/${IMAGE_NAME}.git
-cd ${IMAGE_NAME}
+dset freshrss
 
 ####### ./run
 cat <<EOF | tee docker-compose.yml >/dev/null
@@ -35,36 +27,4 @@ docker pull superkeyor/freshrss
 docker compose up
 EOF
 chmod +x run
-
-####### docker hub
-IMAGE_NAME=$(basename $(pwd))
-
-####### upload to github and dockerhub
-sudo docker buildx create --name mybuilder --use
-sudo docker buildx inspect --bootstrap
-cat <<EOF | tee upload >/dev/null
-#!/usr/bin/env bash
-csd="\$( cd "\$( dirname "\${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-cd "\$csd"
-
-# git config --global --add safe.directory .
-# git reset --hard   # discard local changes
-# git pull git@github.com:/superkeyor/${IMAGE_NAME}.git
-
-git add -A 
-git commit -m 'update'
-git push git@github.com:/superkeyor/${IMAGE_NAME}.git
-
-if [[ $(command -v docker) != "" ]]; then
-# sudo docker build -t ${IMAGE_NAME} .
-# sudo docker image tag ${IMAGE_NAME} superkeyor/${IMAGE_NAME}:latest
-# sudo docker image push superkeyor/${IMAGE_NAME}:latest
-sudo docker buildx build --platform linux/amd64,linux/arm64 -t superkeyor/${IMAGE_NAME}:latest . --push
-fi
-EOF
-chmod +x upload   # ./upload
-
-echo "Docker Hub Password (formula): "
-sudo docker login -u superkeyor
-echo "Ready!"
 ```
