@@ -40,6 +40,8 @@ chmod +x run
 IMAGE_NAME=$(basename $(pwd))
 
 ####### upload to github and dockerhub
+sudo docker buildx create --name mybuilder --use
+sudo docker buildx inspect --bootstrap
 cat <<EOF | tee upload >/dev/null
 #!/usr/bin/env bash
 csd="\$( cd "\$( dirname "\${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -54,9 +56,10 @@ git commit -m 'update'
 git push git@github.com:/superkeyor/${IMAGE_NAME}.git
 
 if [[ $(command -v docker) != "" ]]; then
-sudo docker build -t ${IMAGE_NAME} .
-sudo docker image tag ${IMAGE_NAME} superkeyor/${IMAGE_NAME}:latest
-sudo docker image push superkeyor/${IMAGE_NAME}:latest
+# sudo docker build -t ${IMAGE_NAME} .
+# sudo docker image tag ${IMAGE_NAME} superkeyor/${IMAGE_NAME}:latest
+# sudo docker image push superkeyor/${IMAGE_NAME}:latest
+sudo docker buildx build --platform linux/amd64,linux/arm64 -t superkeyor/${IMAGE_NAME}:latest . --push
 fi
 EOF
 chmod +x upload   # ./upload
