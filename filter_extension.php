@@ -83,7 +83,7 @@ class FilterTitleExtension extends Minz_Extension {
         $cleanTitle = str_replace(['$', '(', ')', '~', '！'], '', $title);
         $cleanPattern = str_replace(['$', '(', ')', '~', '！'], '', $pattern);
         
-        if (mb_stripos($cleanTitle, $cleanPattern) !== false) {
+        if (stripos($cleanTitle, $cleanPattern) !== false) {
             return true;
         }
         
