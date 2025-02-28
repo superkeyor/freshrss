@@ -71,19 +71,15 @@ class FilterTitleExtension extends Minz_Extension {
     //     return false;
     // }
     private function isPatternFound(string $title, string $pattern): bool {
-        // Escape special regex characters in the pattern
-        $escapedPattern = preg_quote($pattern, '/');
-        
-        // Try regex match first with case-insensitive and unicode flags
-        if (1 === preg_match("/(?:^|[^\\p{L}\\p{N}]){$escapedPattern}(?:[^\\p{L}\\p{N}]|$)/ui", $title)) {
+        // first try simple string comparison after cleaning special characters
+        $cleanTitle = str_replace(['$', '(', ')', '~', '!'], '', $title);
+        $cleanPattern = str_replace(['$', '(', ')', '~', '!'], '', $pattern);
+        if (stripos($cleanTitle, $cleanPattern) !== false) {
             return true;
         }
-        
-        // Fallback to simple string comparison after cleaning special characters
-        $cleanTitle = str_replace(['$', '(', ')', '~', '！'], '', $title);
-        $cleanPattern = str_replace(['$', '(', ')', '~', '！'], '', $pattern);
-        
-        if (stripos($cleanTitle, $cleanPattern) !== false) {
+
+        // then try regex
+        if (1 === preg_match($pattern, $title)) {
             return true;
         }
         
