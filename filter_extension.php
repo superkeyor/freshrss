@@ -80,6 +80,7 @@ class FilterTitleExtension extends Minz_Extension {
             return true;
         }
         // then try regex (unicode, case-insensitive)
+        // In PHP, regex patterns must be enclosed in delimiters; otherwise, may be interpreted as regex modifiers (e.g., in the case of a Chinese character)
         if (1 === preg_match("/{$pattern}/ui", $title)) {
             return true;
         }
