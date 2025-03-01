@@ -1298,7 +1298,7 @@ function init_stream(stream) {
 			
 			const link = new_active.querySelector('.item a.title');
 			if (link) {
-			    if (link.href.startsWith('https://www.example.com') || link.href.startsWith('https://www.example.com')) {
+			    if (link.href.startsWith('https://www.1point3acres.com') || link.href.startsWith('https://www.example.com')) {
 		            if (old_active) {
 			            old_active.classList.remove('active');
 			            old_active.classList.remove('current');	
