@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 // Report all errors except deprecation warnings
 // error_reporting(E_ALL & ~E_DEPRECATED);
-error_reporting(E_ALL)
+error_reporting(E_ALL);
 
 class FilterTitleExtension extends Minz_Extension {
     public function init(): void {
