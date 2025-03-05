@@ -17,9 +17,9 @@ class FilterTitleExtension extends Minz_Extension {
 
         if (Minz_Request::isPost()) {
             $configuration = [
-                'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist')),
+                'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist',true)),
                 'mark_as_read' => Minz_Request::paramString('mark_as_read'),
-                'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist')),
+                'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist',true)),
             ];
             $this->setSystemConfiguration($configuration);
         }

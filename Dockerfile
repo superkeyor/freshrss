@@ -13,18 +13,17 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/FreshRSS
 
-# Not use; somehow not working well...
-# # FilterTitle extension
-# RUN git clone https://github.com/cn-tools/cntools_FreshRssExtensions.git && \
-#     cp -r cntools_FreshRssExtensions/xExtension-FilterTitle ./extensions && \
-#     rm -rf cntools_FreshRssExtensions
-# # Patch FilterTitle extension
-# # RUN sed -i "s/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', \[\])),/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
-# #     sed -i "s/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', \[\])),/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
-# #     sed -i '/private function isPatternFound(string $title, string $pattern): bool {/,/return false;/ { \
-# #         s/if (1 === preg_match($pattern, $title))/if (1 === preg_match("\/$pattern\/u", $title))/ \
-# #     }' ./extensions/xExtension-FilterTitle/extension.php
-# COPY ./filter_extension.php ./extensions/xExtension-FilterTitle/extension.php
+# FilterTitle extension
+RUN git clone https://github.com/cn-tools/cntools_FreshRssExtensions.git && \
+    cp -r cntools_FreshRssExtensions/xExtension-FilterTitle ./extensions && \
+    rm -rf cntools_FreshRssExtensions
+# Patch FilterTitle extension
+# RUN sed -i "s/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', \[\])),/'blacklist' => array_filter(Minz_Request::paramTextToArray('blacklist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
+#     sed -i "s/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', \[\])),/'whitelist' => array_filter(Minz_Request::paramTextToArray('whitelist', true)),/" ./extensions/xExtension-FilterTitle/extension.php && \
+#     sed -i '/private function isPatternFound(string $title, string $pattern): bool {/,/return false;/ { \
+#         s/if (1 === preg_match($pattern, $title))/if (1 === preg_match("\/$pattern\/u", $title))/ \
+#     }' ./extensions/xExtension-FilterTitle/extension.php
+COPY ./filter_extension.php ./extensions/xExtension-FilterTitle/extension.php
 
 # TitleWrap extension
 RUN git clone https://github.com/FreshRSS/Extensions.git && \
