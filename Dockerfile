@@ -1,6 +1,6 @@
 # https://github.com/FreshRSS/FreshRSS/blob/latest/Docker/Dockerfile
 # https://hub.docker.com/r/freshrss/freshrss/tags
-FROM freshrss/freshrss:1.25.0
+FROM freshrss/freshrss:1.26.0
 
 ENV TZ=UTC
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
