@@ -1,6 +1,1 @@
 # freshrss
-
-# Build
-```
-
-```
