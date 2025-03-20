@@ -2,6 +2,5 @@
 
 # Build
 ```
-dset freshrss
-drun
+
 ```
