@@ -25,10 +25,15 @@ RUN git clone https://github.com/cn-tools/cntools_FreshRssExtensions.git && \
 #     }' ./extensions/xExtension-FilterTitle/extension.php
 COPY ./filter_extension.php ./extensions/xExtension-FilterTitle/extension.php
 
-# TitleWrap extension
+# TitleWrap etc extension
 RUN git clone https://github.com/FreshRSS/Extensions.git && \
     cp -r Extensions/xExtension-TitleWrap ./extensions && \
     rm -rf Extensions
+
+# Summarizer Across
+RUN git clone https://github.com/reply2future/xExtension-NewsAssistant.git && \
+    cp -r xExtension-NewsAssistant ./extensions && \
+    rm -rf xExtension-NewsAssistant
 
 # ArticleSummary extension
 RUN git clone https://github.com/LiangWei88/xExtension-ArticleSummary.git && \
