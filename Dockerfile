@@ -36,6 +36,7 @@ RUN git clone https://github.com/LiangWei88/xExtension-ArticleSummary.git && \
     rm -rf xExtension-ArticleSummary
 # Patch ArticleSummary styling and functionality
 COPY summary_script.js ./extensions/xExtension-ArticleSummary/static/script.js
+# change model parameters to make it work (only) with gpt-5-nano
 RUN sed -i 's|background: #f8f8f8;|background: #6D6D6D; /* Medium gray background */\n  color: #FFFFFF; /* White font color for contrast */\n  border-radius: 10px; /* Rounded corners */|g' ./extensions/xExtension-ArticleSummary/static/style.css && \
     sed -i "s/target\.nextElementSibling\.querySelector('\.oai-summary-btn')\.innerHTML = 'Summarize'/target.nextElementSibling.querySelectorAll('.oai-summary-btn').forEach(btn => btn.innerHTML = '✨Summarize');/" ./extensions/xExtension-ArticleSummary/static/script.js && \
     sed -i "s/\"max_tokens\"/\"max_completion_tokens\"/" ./extensions/xExtension-ArticleSummary/Controllers/ArticleSummaryController.php && \
