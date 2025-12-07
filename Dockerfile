@@ -40,8 +40,7 @@ COPY summary_script.js ./extensions/xExtension-ArticleSummary/static/script.js
 RUN sed -i 's|background: #f8f8f8;|background: #6D6D6D; /* Medium gray background */\n  color: #FFFFFF; /* White font color for contrast */\n  border-radius: 10px; /* Rounded corners */|g' ./extensions/xExtension-ArticleSummary/static/style.css && \
     sed -i "s/target\.nextElementSibling\.querySelector('\.oai-summary-btn')\.innerHTML = 'Summarize'/target.nextElementSibling.querySelectorAll('.oai-summary-btn').forEach(btn => btn.innerHTML = '✨Summarize');/" ./extensions/xExtension-ArticleSummary/static/script.js && \
     sed -i "s/\"max_tokens\"/\"max_completion_tokens\"/" ./extensions/xExtension-ArticleSummary/Controllers/ArticleSummaryController.php && \
-    sed -i "s/\"temperature\" => 0.7/\"temperature\" => 1/" ./extensions/xExtension-ArticleSummary/Controllers/ArticleSummaryController.php && \
-    sed -i "s/content\.innerHTML = summaryText\.replace(\/(?:\\\\r\\\\n|\\\\r|\\\\n)\/g, '<br>');/content.innerHTML = summaryText.replace(\/(?:\\\\r\\\\n|\\\\r|\\\\n)\/g, '<br style=\"line-height: 0.5;\">');/" ./extensions/xExtension-ArticleSummary/static/script.js
+    sed -i "s/\"temperature\" => 0.7/\"temperature\" => 1/" ./extensions/xExtension-ArticleSummary/Controllers/ArticleSummaryController.php
 RUN cat <<'EOF' | tee ./extensions/xExtension-ArticleSummary/extension.php >/dev/null
 <?php
 class ArticleSummaryExtension extends Minz_Extension
