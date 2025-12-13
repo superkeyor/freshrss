@@ -28,15 +28,16 @@ RUN git clone https://github.com/superkeyor/cntools_FreshRssExtensions.git && \
     cp -r cntools_FreshRssExtensions/xExtension-FilterTitle ./extensions && \
     rm -rf cntools_FreshRssExtensions
 
-# TitleWrap etc extension
-RUN git clone https://github.com/FreshRSS/Extensions.git && \
-    cp -r Extensions/xExtension-TitleWrap ./extensions && \
-    rm -rf Extensions
-
 # MarkPreviousAsRead extension
 RUN git clone https://github.com/kalvn/freshrss-mark-previous-as-read.git && \
     cp -r freshrss-mark-previous-as-read/xExtension-MarkPreviousAsRead ./extensions && \
     rm -rf freshrss-mark-previous-as-read
+    
+# TitleWrap etc extension
+RUN git clone https://github.com/FreshRSS/Extensions.git && \
+    cp -r Extensions/xExtension-TitleWrap ./extensions && \
+    cp -r Extensions/xExtension-showFeedID ./extensions && \
+    rm -rf Extensions
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/FreshRSS/extensions && \
