@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/FreshRSS
 
-# ArticleSummary extension
+# ArticleSummary extension https://github.com/LiangWei88/xExtension-ArticleSummary
 RUN git clone https://github.com/superkeyor/xExtension-ArticleSummary.git && \
     cp -r xExtension-ArticleSummary ./extensions && \
     rm -rf xExtension-ArticleSummary
