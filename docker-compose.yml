@@ -11,6 +11,6 @@ services:
         environment:
             TZ: "US/Central"
             # CRON_MIN: "3,33"
-            CRON_MIN: "*/10"
+            CRON_MIN: "*/5"
             TRUSTED_PROXY: 172.16.0.1/12 192.168.0.1/16
             FRESHRSS_ENV: development # for debugging
