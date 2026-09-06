@@ -29,7 +29,7 @@ RUN git clone https://github.com/superkeyor/cntools_FreshRssExtensions.git && \
     rm -rf cntools_FreshRssExtensions
 
 # MarkPreviousAsRead extension
-RUN git clone https://github.com/kalvn/freshrss-mark-previous-as-read.git && \
+RUN git clone https://github.com/superkeyor/freshrss-mark-previous-as-read.git && \
     cp -r freshrss-mark-previous-as-read/xExtension-MarkPreviousAsRead ./extensions && \
     rm -rf freshrss-mark-previous-as-read
     
