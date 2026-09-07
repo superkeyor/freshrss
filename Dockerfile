@@ -1,6 +1,6 @@
 # https://github.com/FreshRSS/FreshRSS/blob/latest/Docker/Dockerfile
 # https://hub.docker.com/r/freshrss/freshrss/tags
-FROM freshrss/freshrss:1.27.1
+FROM freshrss/freshrss:1.29.1
 
 ENV TZ=UTC
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -32,9 +32,16 @@ RUN git clone https://github.com/superkeyor/cntools_FreshRssExtensions.git && \
 RUN git clone https://github.com/superkeyor/freshrss-mark-previous-as-read.git && \
     cp -r freshrss-mark-previous-as-read/xExtension-MarkPreviousAsRead ./extensions && \
     rm -rf freshrss-mark-previous-as-read
-    
-# TitleWrap etc extension
-RUN git clone https://github.com/FreshRSS/Extensions.git && \
+
+# RecentlyRead etc extension
+RUN git clone https://github.com/superkeyor/freshrss-extensions.git && \
+    cp -r freshrss-extensions/xExtension-RecentlyRead ./extensions && \
+    cp -r freshrss-extensions/xExtension-YouTubeEmbed ./extensions && \
+    rm -rf freshrss-extensions
+
+# Official (LlmClassification, TitleWrap, showFeedID, etc) extension
+RUN git clone https://github.com/superkeyor/Extensions.git && \
+    cp -r Extensions/xExtension-LlmClassification ./extensions && \
     cp -r Extensions/xExtension-TitleWrap ./extensions && \
     cp -r Extensions/xExtension-showFeedID ./extensions && \
     rm -rf Extensions
