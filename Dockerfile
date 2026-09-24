@@ -14,32 +14,44 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /var/www/FreshRSS
 
 # ArticleSummary extension https://github.com/LiangWei88/xExtension-ArticleSummary
+# Busts the build cache whenever master gets a new commit, so the clone below is never stale.
+ADD https://api.github.com/repos/superkeyor/xExtension-ArticleSummary/git/refs/heads/master /tmp/articlesummary-version.json
 RUN git clone https://github.com/superkeyor/xExtension-ArticleSummary.git && \
     cp -r xExtension-ArticleSummary ./extensions && \
     rm -rf xExtension-ArticleSummary
 
 # ReadingTime extension
+# Busts the build cache whenever master gets a new commit, so the clone below is never stale.
+ADD https://api.github.com/repos/superkeyor/FreshRSS_Extension-ReadingTime/git/refs/heads/master /tmp/readingtime-version.json
 RUN git clone https://github.com/superkeyor/FreshRSS_Extension-ReadingTime.git && \
     cp -r FreshRSS_Extension-ReadingTime ./extensions && \
     rm -rf FreshRSS_Extension-ReadingTime
 
 # FilterTitle extension
+# Busts the build cache whenever master gets a new commit, so the clone below is never stale.
+ADD https://api.github.com/repos/superkeyor/cntools_FreshRssExtensions/git/refs/heads/master /tmp/filtertitle-version.json
 RUN git clone https://github.com/superkeyor/cntools_FreshRssExtensions.git && \
     cp -r cntools_FreshRssExtensions/xExtension-FilterTitle ./extensions && \
     rm -rf cntools_FreshRssExtensions
 
 # MarkPreviousAsRead extension
+# Busts the build cache whenever master gets a new commit, so the clone below is never stale.
+ADD https://api.github.com/repos/superkeyor/freshrss-mark-previous-as-read/git/refs/heads/main /tmp/markpreviousasread-version.json
 RUN git clone https://github.com/superkeyor/freshrss-mark-previous-as-read.git && \
     cp -r freshrss-mark-previous-as-read/xExtension-MarkPreviousAsRead ./extensions && \
     rm -rf freshrss-mark-previous-as-read
 
 # RecentlyRead etc extension
+# Busts the build cache whenever master gets a new commit, so the clone below is never stale.
+ADD https://api.github.com/repos/superkeyor/freshrss-extensions/git/refs/heads/develop /tmp/freshrss-extensions-version.json
 RUN git clone https://github.com/superkeyor/freshrss-extensions.git && \
     cp -r freshrss-extensions/xExtension-RecentlyRead ./extensions && \
     cp -r freshrss-extensions/xExtension-YouTubeEmbed ./extensions && \
     rm -rf freshrss-extensions
 
 # Official (LlmClassification, TitleWrap, showFeedID, etc) extension
+# Busts the build cache whenever master gets a new commit, so the clone below is never stale.
+ADD https://api.github.com/repos/superkeyor/Extensions/git/refs/heads/main /tmp/extensions-version.json
 RUN git clone https://github.com/superkeyor/Extensions.git && \
     cp -r Extensions/xExtension-LlmClassification ./extensions && \
     cp -r Extensions/xExtension-TitleWrap ./extensions && \
